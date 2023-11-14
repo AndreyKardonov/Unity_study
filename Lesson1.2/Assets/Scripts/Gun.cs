@@ -32,9 +32,7 @@ public class Gun : MonoBehaviour, IGun
     {
 
     }
-    public void Hold()
-    { }
-
+  
 
 
 }

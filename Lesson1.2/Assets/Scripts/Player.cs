@@ -7,20 +7,15 @@ using static UnityEngine.GraphicsBuffer;
 
 public class Player : MonoBehaviour
 {
-    // Start is called before the first frame update
-
     [SerializeField] Transform _target;
-    [SerializeField] IGun _gun;
-    public GameObject _ammoPrefab;
-    public GameObject _gunn;
-    // Update is called once per frame
     [SerializeField] TextMeshProUGUI _ammoload;
+    [SerializeField] GameObject _ammoPrefab;   
+    private IGun _gun;
 
-
-
+ 
     public void SetGun1()
     {
-        SetGun(new Gun_1());
+        SetGun(new Gun_1(5));
         _ammoload.text = _gun.GetCount();
     }
     public void SetGun2()
@@ -28,32 +23,12 @@ public class Player : MonoBehaviour
         SetGun(new Gun_2());
         _ammoload.text = _gun.GetCount();
     }
-
-    private void Start()
+    public void SetGun3()
     {
-        SetGun(new Gun_1());
+        SetGun(new Gun_3(15));
         _ammoload.text = _gun.GetCount();
-
     }
-    private void Update()
-    {
 
-
-        if (Input.GetKeyDown(KeyCode.W))
-        {
-            Debug.Log("Fire!");
-            Fire();
-        }
-
-
-    }
-    
-    public void SetGun(IGun igun)
-    {
-        _gun?.Hold(); 
-        _gun = igun;
-
-    }
     public void Fire()
     {
         _gun.Fire(_target, _ammoPrefab);
@@ -65,5 +40,14 @@ public class Player : MonoBehaviour
       _ammoload.text = _gun.GetCount();
     }
 
-
+// private section
+    private void Start()
+    {
+        SetGun(new Gun_1(5));
+        _ammoload.text = _gun.GetCount();
+    }
+    private void SetGun(IGun igun)
+    {
+        _gun = igun;
+    }
 }
