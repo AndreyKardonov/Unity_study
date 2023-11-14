@@ -9,8 +9,11 @@ public class AmmoClass : MonoBehaviour
     public  GameObject _ammo;
 
     private bool _isFiring;
+    private void Start()
+    {
+        _isFiring = false;
+    }
 
- 
     public void Fire(Transform target)
     {
         _target = target;
