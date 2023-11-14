@@ -2,7 +2,10 @@ using UnityEngine;
 
 public interface IGun
 {
-    void Fire(Transform _target);
+    void Fire(Transform _target, GameObject _ammoPrefab);
     void Hold();
-    void Update(float deltaTime);
+    public void Reload();
+    public string GetCount();
+
+
 }
