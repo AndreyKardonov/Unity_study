@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using static UnityEditor.Experimental.GraphView.GraphView;
 using static UnityEngine.GraphicsBuffer;
@@ -12,22 +13,28 @@ public class Player : MonoBehaviour
     [SerializeField] GameObject _ammoPrefab;   
     private IGun _gun;
 
- 
-    public void SetGun1()
+
+    public void SetGunS(int _nGun)
     {
-        SetGun(new Gun_1(5));
+        switch (_nGun)
+        {
+            case 1:
+                SetGun(new Gun_1(5));
+                break;
+            case 2:
+                SetGun(new Gun_2());
+                break;
+            case 3:
+                SetGun(new Gun_3(15));
+                break;
+            default:
+                SetGun(new Gun_1(5));
+                break;
+        }
         _ammoload.text = _gun.GetCount();
     }
-    public void SetGun2()
-    {
-        SetGun(new Gun_2());
-        _ammoload.text = _gun.GetCount();
-    }
-    public void SetGun3()
-    {
-        SetGun(new Gun_3(15));
-        _ammoload.text = _gun.GetCount();
-    }
+
+
 
     public void Fire()
     {
