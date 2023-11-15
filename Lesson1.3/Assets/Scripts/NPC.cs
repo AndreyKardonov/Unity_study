@@ -8,14 +8,16 @@ using static UnityEngine.GraphicsBuffer;
 
 public class NPC : MonoBehaviour, INPC
 {
-
-
     [SerializeField] TextMeshProUGUI _text;
-    INPC _myNPC;
+    private INPC _myNPC;
 
-    private List<string> PlayerPhrases;
+    public string GetSpeech()
+    {
+        return _myNPC.GetSpeech();
+    }
 
-    public void SetNPC()
+
+    private void SetNPC()
     {
         switch (UnityEngine.Random.Range(1, 4))
         {
@@ -35,24 +37,18 @@ public class NPC : MonoBehaviour, INPC
     }
 
 
-    public string GetSpeech()
+    private void OnCollisionEnter(Collision collision)
     {
-        return _myNPC.GetSpeech();
-    }
- 
-
-
-    private void Start()
-    {
-
+        if (collision.gameObject.name == "Player")
+        {
+            SetNPC();
+            _text.text = GetSpeech();
+        }
     }
 
-   
-
-    private void OnTriggerEnter(Collider other)
+    private void OnCollisionExit(Collision collisionInfo)
     {
-        SetNPC();
-        _text.text = GetSpeech();
+        _text.text = "";
     }
 
 }

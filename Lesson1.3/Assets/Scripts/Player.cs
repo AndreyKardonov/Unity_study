@@ -15,12 +15,10 @@ public class Player : MonoBehaviour, INPC
 
 
     [SerializeField] TextMeshProUGUI _text;
-
+   public float speed = 2f;
 
     private List<string> PlayerPhrases;
-
     private Rigidbody rb;
-    public float speed = 2f;
     private Vector3 moveVector;
 
     void Awake()
@@ -29,26 +27,18 @@ public class Player : MonoBehaviour, INPC
     }
 
 
- 
-
     void FixedUpdate()
     {
         moveVector.x = Input.GetAxis("Horizontal");
         moveVector.y = 0; 
-        moveVector.z = 0;// Input.GetAxis("Vertical");
+        moveVector.z = 0;
         rb.MovePosition(rb.position + moveVector * speed * Time.deltaTime);
-
-       
-
-
     }
 
     public string GetSpeech()
     {
-        return PlayerPhrases[UnityEngine.Random.Range(1, PlayerPhrases.Count)-1];
+        return PlayerPhrases[UnityEngine.Random.Range(0, PlayerPhrases.Count)];
     }
- 
-
 
     private void Start()
     {
@@ -56,19 +46,20 @@ public class Player : MonoBehaviour, INPC
         LoadDictionary();
     }
 
-    public void LoadDictionary()
+    private void LoadDictionary()
     {
         PlayerPhrases.Add("Привет! Чем торгуешь?");
         PlayerPhrases.Add("Есть что на продажу?");
-        PlayerPhrases.Add("Мне нужна твоя одежда.");
-        PlayerPhrases.Add("Меняю деньги на еду.");
-         
-
+        PlayerPhrases.Add("Меняю деньги на еду.");         
     }
 
-    private void OnTriggerEnter(Collider other)
+   private void OnCollisionEnter(Collision collision)
     {
-        _text.text = GetSpeech();
+        if (collision.gameObject.name == "NPC")
+            _text.text = GetSpeech();
     }
-
+    private void OnCollisionExit(Collision collisionInfo)
+    {
+        _text.text = "";
+    }
 }
