@@ -19,7 +19,7 @@ public class Gun_1: MonoBehaviour, IGun
     public void Fire(Transform target, GameObject _ammoPrefab)
     {
         if (ammo <= 0) return;
-
+       
         ammo--;
 
         Vector3 ammoPosition1 = new Vector3(0, 0, 0);

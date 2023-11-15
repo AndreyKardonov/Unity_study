@@ -40,6 +40,8 @@ public class Player : MonoBehaviour
     {
         _gun.Fire(_target, _ammoPrefab);
         _ammoload.text = _gun.GetCount();
+        Debug.Log("player-fire");
+
     }
     public void Reload()
     {
