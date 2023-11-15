@@ -1,11 +1,12 @@
 using UnityEngine;
 
 
-public class Gun_3: MonoBehaviour, IGun
+public class Gun_3: IGun
 {
     private int ammoMax = 15;
     private int ammo;
-
+    private GameObject newAmmo;
+    
     public string GetCount()
     {
         return ammo.ToString() + " / " + ammoMax.ToString();
@@ -25,16 +26,16 @@ public class Gun_3: MonoBehaviour, IGun
         Quaternion ammoRotation = Quaternion.Euler(0, 0, 0);
 
         Vector3 ammoPosition1 = new Vector3(-2, 0, 0);
-        GameObject newAmmo1 = Instantiate(_ammoPrefab, ammoPosition1, ammoRotation);
-        newAmmo1.GetComponent<AmmoClass>().Fire(target);
+        newAmmo = GameObject.Instantiate(_ammoPrefab, ammoPosition1, ammoRotation);
+        newAmmo.GetComponent<AmmoClass>().Fire(target);
  
         Vector3 ammoPosition2 = new Vector3(0, 0, 0 );
-        GameObject newAmmo2 = Instantiate(_ammoPrefab, ammoPosition2, ammoRotation);
-        newAmmo2.GetComponent<AmmoClass>().Fire(target);
+        newAmmo = GameObject.Instantiate(_ammoPrefab, ammoPosition2, ammoRotation);
+        newAmmo.GetComponent<AmmoClass>().Fire(target);
  
         Vector3 ammoPosition3 = new Vector3(2, 0,0 );
-        GameObject newAmmo3 = Instantiate(_ammoPrefab, ammoPosition3, ammoRotation);
-        newAmmo3.GetComponent<AmmoClass>().Fire(target);
+        newAmmo = GameObject.Instantiate(_ammoPrefab, ammoPosition3, ammoRotation);
+        newAmmo.GetComponent<AmmoClass>().Fire(target);
     }
 
 

@@ -10,7 +10,7 @@ public class Player : MonoBehaviour
 {
     [SerializeField] Transform _target;
     [SerializeField] TextMeshProUGUI _ammoload;
-    [SerializeField] GameObject _ammoPrefab;   
+    [SerializeField] GameObject _ammoPrefab;
     private IGun _gun;
 
 
@@ -40,16 +40,14 @@ public class Player : MonoBehaviour
     {
         _gun.Fire(_target, _ammoPrefab);
         _ammoload.text = _gun.GetCount();
-        Debug.Log("player-fire");
-
     }
     public void Reload()
     {
-      _gun.Reload(); 
-      _ammoload.text = _gun.GetCount();
+        _gun.Reload();
+        _ammoload.text = _gun.GetCount();
     }
 
-// private section
+    // private section
     private void Start()
     {
         SetGun(new Gun_1(5));
