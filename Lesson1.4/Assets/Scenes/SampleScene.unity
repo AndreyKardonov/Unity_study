@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.172768, g: 0.21589169, b: 0.29782546, a: 1}
+  m_IndirectSpecularColor: {r: 0.17276794, g: 0.2158916, b: 0.29782537, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -448,7 +448,7 @@ Transform:
   m_GameObject: {fileID: 330585543}
   serializedVersion: 2
   m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: 19.3, z: 0}
+  m_LocalPosition: {x: 0, y: 10, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -582,14 +582,14 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 11500000, guid: a4af8574e24984c4aa25548e619f4347, type: 3}
+      - m_Target: {fileID: 1202983052}
         m_TargetAssemblyTypeName: Player, Assembly-CSharp
-        m_MethodName: 
+        m_MethodName: StartGame
         m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 3
+          m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
@@ -1087,7 +1087,7 @@ Transform:
   m_GameObject: {fileID: 707695580}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -1, z: 0}
+  m_LocalPosition: {x: 0, y: -0.5, z: 0}
   m_LocalScale: {x: 10, y: 1, z: 10}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1254,9 +1254,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 115ab23de572ed6439d2bc853797e05a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _target: {fileID: 0}
-  _ammoload: {fileID: 216891631}
-  _ammoPrefab: {fileID: 4093589301301273663, guid: 7a09d5009f0239943bcab110df75065b,
+  _startCanvas: {fileID: 108199341}
+  _countOfSpheres: 10
+  _res: {fileID: 216891631}
+  _spherePrefab: {fileID: 4093589301301273663, guid: 7a09d5009f0239943bcab110df75065b,
     type: 3}
 --- !u!1 &1271221438
 GameObject:
@@ -1649,12 +1650,12 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1202983052}
         m_TargetAssemblyTypeName: Player, Assembly-CSharp
-        m_MethodName: Reload
-        m_Mode: 1
+        m_MethodName: StartGame
+        m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
+          m_IntArgument: 1
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0

@@ -5,7 +5,6 @@ using UnityEngine;
 public class GameManager : MonoBehaviour
 {
 
-    private int _myCondition = 0;
     // Start is called before the first frame update
     void Start()
     {
@@ -19,8 +18,4 @@ public class GameManager : MonoBehaviour
     }
 
 
-    public void SetCondition(int cnd)
-    {
-        _myCondition = cnd;
-    }
 }
