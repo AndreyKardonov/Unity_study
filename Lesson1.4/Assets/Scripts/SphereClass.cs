@@ -4,53 +4,21 @@ using UnityEngine.Events;
 
 public class SphereClass : MonoBehaviour 
 {
-    public Color _color;
-    private int _type=0;
-   
-    public static event Action<int> chpokEvent;
-    public Color GetColor() { return _color; }
-
+    private int _type=0; // Тип шарика (соответствует цвету в классе MyColors
+    public static event Action<int> chpokEvent;  //Событие - на шарик нажали
 
     static public void CallChpok(int tp)
     {
         chpokEvent.Invoke(tp);
     }
-   
-    private void Start()
-    { 
-
-    }
 
 
-    public void SetType(int _tp)
+    public void SetType(int _tp, Color _clr)
     {
         _type = _tp;
-
-        switch (_type)
-        {
-            case 0:
-                gameObject.GetComponent<Renderer>().material.color = Color.green;
-                break;
-            case 1:
-                gameObject.GetComponent<Renderer>().material.color = Color.red;
-                break;
-            case 2:
-                gameObject.GetComponent<Renderer>().material.color = Color.white;
-                break;
-            default:
-                gameObject.GetComponent<Renderer>().material.color = Color.white;
-                break;
-        }
-
- 
+        gameObject.GetComponent<Renderer>().material.color = _clr;
     }
 
-    public void SetColor(Color _clr)
-    {
-        _color = _clr;
-        gameObject.GetComponent<Renderer>().material.color = _color;
-
-    }
     private void OnMouseDown()
     {
         chpokEvent?.Invoke(_type);

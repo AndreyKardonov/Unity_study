@@ -15,7 +15,7 @@ public class Player : MonoBehaviour, INPC
 
 
     [SerializeField] TextMeshProUGUI _text;
-   public float speed = 2f;
+    public float speed = 2f;
 
     private List<string> PlayerPhrases;
     private Rigidbody rb;
