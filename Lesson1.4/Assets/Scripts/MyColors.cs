@@ -5,8 +5,7 @@ using UnityEngine;
 public class MyColors 
 {
 
-    private List<Color> myColors;
-
+    private List<Color> myColors; // Хранилище цветов
 
 
     public void LoadMyColors(int i)  /// Какой-то метод, который можно поменять
