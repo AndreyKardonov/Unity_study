@@ -28,48 +28,86 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
             ""id"": ""e0a878ad-6a54-4d6f-9d91-e300c7dad45c"",
             ""actions"": [
                 {
-                    ""name"": ""New action"",
-                    ""type"": ""Value"",
-                    ""id"": ""368968b2-385d-4211-b70f-368c18aa0aab"",
-                    ""expectedControlType"": ""Axis"",
+                    ""name"": ""Sing"",
+                    ""type"": ""Button"",
+                    ""id"": ""d7f45b28-5287-4dec-b049-9e44b33764c4"",
+                    ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """",
-                    ""initialStateCheck"": true
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Work"",
+                    ""type"": ""Button"",
+                    ""id"": ""39540486-ac21-46a2-af51-c2dd26db5b78"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Idle"",
+                    ""type"": ""Button"",
+                    ""id"": ""22cbe3ca-4a63-4c4f-acac-bc0938f46705"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Run"",
+                    ""type"": ""Button"",
+                    ""id"": ""f2deb922-ad46-45ee-9bfc-90913a87ad4f"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
                 {
-                    ""name"": ""1D Axis"",
-                    ""id"": ""b832f8d6-08a2-4e27-ad60-bc54d2c0592a"",
-                    ""path"": ""1DAxis(whichSideWins=1)"",
+                    ""name"": """",
+                    ""id"": ""aa4ab20b-d6c3-4ac2-9f80-0331d55ec9c2"",
+                    ""path"": ""<Keyboard>/s"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""New action"",
-                    ""isComposite"": true,
+                    ""action"": ""Sing"",
+                    ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
                 {
-                    ""name"": ""negative"",
-                    ""id"": ""b14979ba-e048-4e64-b421-20db8bf629d8"",
-                    ""path"": ""<Keyboard>/a"",
+                    ""name"": """",
+                    ""id"": ""a2de0afa-c6cf-4826-8152-ad0df6782b90"",
+                    ""path"": ""<Keyboard>/w"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""New action"",
+                    ""action"": ""Work"",
                     ""isComposite"": false,
-                    ""isPartOfComposite"": true
+                    ""isPartOfComposite"": false
                 },
                 {
-                    ""name"": ""positive"",
-                    ""id"": ""ad7b4c75-f9f2-4ebd-aa5b-3de51558abe7"",
-                    ""path"": ""<Keyboard>/d"",
+                    ""name"": """",
+                    ""id"": ""5a07d2d1-64e0-47bf-93a0-25f626753e67"",
+                    ""path"": ""<Keyboard>/i"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""New action"",
+                    ""action"": ""Idle"",
                     ""isComposite"": false,
-                    ""isPartOfComposite"": true
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""b00c0726-eefc-4a1b-83f1-c0f0a56ebec0"",
+                    ""path"": ""<Keyboard>/r"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Run"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -78,7 +116,10 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
 }");
         // Movement
         m_Movement = asset.FindActionMap("Movement", throwIfNotFound: true);
-        m_Movement_Newaction = m_Movement.FindAction("New action", throwIfNotFound: true);
+        m_Movement_Sing = m_Movement.FindAction("Sing", throwIfNotFound: true);
+        m_Movement_Work = m_Movement.FindAction("Work", throwIfNotFound: true);
+        m_Movement_Idle = m_Movement.FindAction("Idle", throwIfNotFound: true);
+        m_Movement_Run = m_Movement.FindAction("Run", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -140,12 +181,18 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
     // Movement
     private readonly InputActionMap m_Movement;
     private List<IMovementActions> m_MovementActionsCallbackInterfaces = new List<IMovementActions>();
-    private readonly InputAction m_Movement_Newaction;
+    private readonly InputAction m_Movement_Sing;
+    private readonly InputAction m_Movement_Work;
+    private readonly InputAction m_Movement_Idle;
+    private readonly InputAction m_Movement_Run;
     public struct MovementActions
     {
         private @PlayerInput m_Wrapper;
         public MovementActions(@PlayerInput wrapper) { m_Wrapper = wrapper; }
-        public InputAction @Newaction => m_Wrapper.m_Movement_Newaction;
+        public InputAction @Sing => m_Wrapper.m_Movement_Sing;
+        public InputAction @Work => m_Wrapper.m_Movement_Work;
+        public InputAction @Idle => m_Wrapper.m_Movement_Idle;
+        public InputAction @Run => m_Wrapper.m_Movement_Run;
         public InputActionMap Get() { return m_Wrapper.m_Movement; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -155,16 +202,34 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
         {
             if (instance == null || m_Wrapper.m_MovementActionsCallbackInterfaces.Contains(instance)) return;
             m_Wrapper.m_MovementActionsCallbackInterfaces.Add(instance);
-            @Newaction.started += instance.OnNewaction;
-            @Newaction.performed += instance.OnNewaction;
-            @Newaction.canceled += instance.OnNewaction;
+            @Sing.started += instance.OnSing;
+            @Sing.performed += instance.OnSing;
+            @Sing.canceled += instance.OnSing;
+            @Work.started += instance.OnWork;
+            @Work.performed += instance.OnWork;
+            @Work.canceled += instance.OnWork;
+            @Idle.started += instance.OnIdle;
+            @Idle.performed += instance.OnIdle;
+            @Idle.canceled += instance.OnIdle;
+            @Run.started += instance.OnRun;
+            @Run.performed += instance.OnRun;
+            @Run.canceled += instance.OnRun;
         }
 
         private void UnregisterCallbacks(IMovementActions instance)
         {
-            @Newaction.started -= instance.OnNewaction;
-            @Newaction.performed -= instance.OnNewaction;
-            @Newaction.canceled -= instance.OnNewaction;
+            @Sing.started -= instance.OnSing;
+            @Sing.performed -= instance.OnSing;
+            @Sing.canceled -= instance.OnSing;
+            @Work.started -= instance.OnWork;
+            @Work.performed -= instance.OnWork;
+            @Work.canceled -= instance.OnWork;
+            @Idle.started -= instance.OnIdle;
+            @Idle.performed -= instance.OnIdle;
+            @Idle.canceled -= instance.OnIdle;
+            @Run.started -= instance.OnRun;
+            @Run.performed -= instance.OnRun;
+            @Run.canceled -= instance.OnRun;
         }
 
         public void RemoveCallbacks(IMovementActions instance)
@@ -184,6 +249,9 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
     public MovementActions @Movement => new MovementActions(this);
     public interface IMovementActions
     {
-        void OnNewaction(InputAction.CallbackContext context);
+        void OnSing(InputAction.CallbackContext context);
+        void OnWork(InputAction.CallbackContext context);
+        void OnIdle(InputAction.CallbackContext context);
+        void OnRun(InputAction.CallbackContext context);
     }
 }

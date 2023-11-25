@@ -10,10 +10,14 @@ public class CharacterStateMachine  : IStateSwitcher
     private IState _currentState;
 
 
-    public  CharacterStateMachine()
+    public  CharacterStateMachine(Player player)
     {
         _states = new List<IState>()
         {
+            new IdlingState(this,player),
+            new RunningState(this,player),
+            new SingingState(this,player),
+            new WorkingState(this,player),
 
         };
         _currentState = _states[0];
