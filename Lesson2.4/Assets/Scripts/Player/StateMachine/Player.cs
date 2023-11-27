@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.TextCore.Text;
 
@@ -8,7 +9,7 @@ public class Player : MonoBehaviour
 
     [SerializeField] private RootStateConfig _rootStateConfig;
     private PlayerInput _input;
-    private CharacterStateMachine _stateMachine;
+  //  private CharacterStateMachine _stateMachine;
     private CharacterController _playerController;
 
     public PlayerInput Input => _input;
@@ -22,16 +23,30 @@ public class Player : MonoBehaviour
     private int _hp;
     private int _lvl;
 
+    public int HP => _hp;
+    public int Level => _lvl;
+
+    public event Action HPDecrease;
+    public event Action LVLIncrease;
+
+    public void Restart()
+    {
+        _hp = Config.GameConfig.HP;
+        _lvl = Config.GameConfig.Level;
+        LVLIncrease?.Invoke();
+        HPDecrease?.Invoke();
+    }
+
     [SerializeField]  private Mediator _mediator;
     private void Awake()
     {
         _playerController = GetComponent<CharacterController>();
         _input = new PlayerInput();
-        _stateMachine = new CharacterStateMachine(this);
-  //      _mediator = new Mediator();
-        _hp = Config.GameConfig.HP;
-        _lvl = Config.GameConfig.Level;
+  //      _stateMachine = new CharacterStateMachine(this);
+        Restart();
     }
+
+
 
     private void Update()
     {
@@ -59,38 +74,23 @@ public class Player : MonoBehaviour
 
     private float ReadHorizontalInput() => Input.Movement.PlayerMove.ReadValue<float>();
 
-
-    private void onHPDecrease()
-    {
-        _hp--;
-        _mediator.DecreaseHP(_hp.ToString());
-    }
-    private void onLVLIncrease()
-    {
-        _lvl++;
-        _mediator.IncreaseLVL(_lvl.ToString());
-    }
+ 
     void OnControllerColliderHit(ControllerColliderHit hit)
     {
-    
-
-            Debug.Log("collision   ");
-
-
             if (hit.gameObject.name.ToString() == "CL_HP")
             {
                 Debug.Log("collision  HP");
-                onHPDecrease();
-            }
+                _hp--;
+                HPDecrease?.Invoke();
+              }
             if (hit.gameObject.name.ToString() == "CL_Level")
             {
                 Debug.Log("collision  Level");
-                onLVLIncrease();
+                _lvl++;
+                LVLIncrease?.Invoke();
             }
-
-        }
+    }
      
-
 
 
 }
