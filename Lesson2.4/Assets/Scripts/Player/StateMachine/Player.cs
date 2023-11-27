@@ -19,30 +19,26 @@ public class Player : MonoBehaviour
     private Quaternion TurnRight => new Quaternion(0, 0, 0, 0);
     private Quaternion TurnLeft => Quaternion.Euler(0, 180, 0);
 
+    private int _hp;
+    private int _lvl;
 
+    [SerializeField]  private Mediator _mediator;
     private void Awake()
     {
         _playerController = GetComponent<CharacterController>();
         _input = new PlayerInput();
         _stateMachine = new CharacterStateMachine(this);
-
-
+  //      _mediator = new Mediator();
+        _hp = Config.GameConfig.HP;
+        _lvl = Config.GameConfig.Level;
     }
 
     private void Update()
     {
-        //      _stateMachine.HandleInput();
-        //      _stateMachine.Update();
         _speed = Config.GameConfig.Speed;
-
-
-        Vector3 velocity = new Vector3(_speed * ReadHorizontalInput(), 0, 0);
-
+         Vector3 velocity = new Vector3(_speed * ReadHorizontalInput(), 0, 0);
         _playerController.Move(velocity * Time.deltaTime);
         transform.rotation = GetRotationFrom(velocity);
-
-
-
     }
 
     private void OnEnable() => _input.Enable();
@@ -64,22 +60,37 @@ public class Player : MonoBehaviour
     private float ReadHorizontalInput() => Input.Movement.PlayerMove.ReadValue<float>();
 
 
-
-
-    private void OnCollisionEnter(Collision collision)
+    private void onHPDecrease()
     {
-        //      if (collision.gameObject.name == "NPC")
-
-        Debug.Log("collision  start");
+        _hp--;
+        _mediator.DecreaseHP(_hp.ToString());
     }
-    private void OnCollisionExit(Collision collision)
+    private void onLVLIncrease()
     {
-        Debug.Log("collision  end");
+        _lvl++;
+        _mediator.IncreaseLVL(_lvl.ToString());
     }
-
     void OnControllerColliderHit(ControllerColliderHit hit)
     {
-        Debug.Log("collision - start" + hit.gameObject.name.ToString());
-        
-    }
+    
+
+            Debug.Log("collision   ");
+
+
+            if (hit.gameObject.name.ToString() == "CL_HP")
+            {
+                Debug.Log("collision  HP");
+                onHPDecrease();
+            }
+            if (hit.gameObject.name.ToString() == "CL_Level")
+            {
+                Debug.Log("collision  Level");
+                onLVLIncrease();
+            }
+
+        }
+     
+
+
+
 }

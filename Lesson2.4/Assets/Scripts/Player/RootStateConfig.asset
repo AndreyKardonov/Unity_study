@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _gameConfig:
     _level: 1
-    _HP: 5
+    _HP: 40
     _speed: 4
