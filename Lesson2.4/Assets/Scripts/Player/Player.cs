@@ -1,51 +1,50 @@
 using System;
 using UnityEngine;
-using UnityEngine.TextCore.Text;
 
 [RequireComponent(typeof(CharacterController))]
+[RequireComponent(typeof(PlayerInput))]
 
 public class Player : MonoBehaviour
 {
-
+    [SerializeField] private Mediator _mediator;
     [SerializeField] private RootStateConfig _rootStateConfig;
-    private PlayerInput _input;
-  //  private CharacterStateMachine _stateMachine;
-    private CharacterController _playerController;
-
     public PlayerInput Input => _input;
     public CharacterController Controller => _playerController;
-    public RootStateConfig Config => _rootStateConfig;
+    public RootStateConfig Config => _rootStateConfig;  
+    public int HP => _hp;
+    public int Level => _lvl;  
+
+    public event Action HPChangeEvent;
+    public event Action LVLChangeEvent;
+
+    private PlayerInput _input;
+    private CharacterController _playerController;
+    private int _hp;
+    private int _lvl; 
     private int _speed;
 
     private Quaternion TurnRight => new Quaternion(0, 0, 0, 0);
     private Quaternion TurnLeft => Quaternion.Euler(0, 180, 0);
 
-    private int _hp;
-    private int _lvl;
 
-    public int HP => _hp;
-    public int Level => _lvl;
-
-    public event Action HPDecrease;
-    public event Action LVLIncrease;
 
     public void Restart()
     {
         _hp = Config.GameConfig.HP;
         _lvl = Config.GameConfig.Level;
-        LVLIncrease?.Invoke();
-        HPDecrease?.Invoke();
+        LVLChangeEvent?.Invoke();
+        HPChangeEvent?.Invoke();
     }
+    public void StartInput() => OnEnable();
 
-    [SerializeField]  private Mediator _mediator;
-    private void Awake()
+    public void StopInput() => OnDisable();
+
+    public void Initialize()
     {
-        _playerController = GetComponent<CharacterController>();
-        _input = new PlayerInput();
-  //      _stateMachine = new CharacterStateMachine(this);
-        Restart();
+      _playerController = GetComponent<CharacterController>();
+      _input = new PlayerInput();
+   
     }
-
 
 
     private void Update()
@@ -75,19 +74,19 @@ public class Player : MonoBehaviour
     private float ReadHorizontalInput() => Input.Movement.PlayerMove.ReadValue<float>();
 
  
-    void OnControllerColliderHit(ControllerColliderHit hit)
+    private void OnControllerColliderHit(ControllerColliderHit hit)
     {
             if (hit.gameObject.name.ToString() == "CL_HP")
             {
                 Debug.Log("collision  HP");
                 _hp--;
-                HPDecrease?.Invoke();
+                HPChangeEvent?.Invoke();
               }
             if (hit.gameObject.name.ToString() == "CL_Level")
             {
                 Debug.Log("collision  Level");
                 _lvl++;
-                LVLIncrease?.Invoke();
+                LVLChangeEvent?.Invoke();
             }
     }
      

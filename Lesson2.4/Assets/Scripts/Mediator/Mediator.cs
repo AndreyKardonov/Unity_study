@@ -1,7 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class Mediator : MonoBehaviour
@@ -12,30 +8,38 @@ public class Mediator : MonoBehaviour
     {
         _uiClass = uiclass;
         _player = player;
-        _player.HPDecrease  += DecreaseHP;
-        _player.LVLIncrease += IncreaseLVL;
-
+        _player.HPChangeEvent  += HPChangeProc;
+        _player.LVLChangeEvent += LVLChangeProc;
+        _uiClass.RSTPressed += GameRestart;
+        _uiClass.HideRestartCanvas();
     }
+
+
     private void OnDisable()
     {
-        _player.HPDecrease  -= DecreaseHP;
-        _player.LVLIncrease -= IncreaseLVL;
+        _player.HPChangeEvent  -= HPChangeProc;
+        _player.LVLChangeEvent -= LVLChangeProc;
+        _uiClass.RSTPressed -= GameRestart;
     }
-    public void DecreaseHP()
+    private void HPChangeProc()
     {
-        _uiClass.SetHPText(_player.HP.ToString());
         if (_player.HP<=0) 
-        {
+          {
             _uiClass.ShowRestartCanvas();
-            Debug.Log("restart!");
-        }
+            _player.StopInput();
+          }
+        else 
+          _uiClass.SetHPText(_player.HP.ToString());   
     }
 
-    public void IncreaseLVL()
+    private void LVLChangeProc() => _uiClass.SetLVLText(_player.Level.ToString());
+    
+
+    private void GameRestart()
     {
-        _uiClass.SetLVLText(_player.Level.ToString());
+        _player.Restart();
+        _uiClass.HideRestartCanvas();
+        _player.StartInput();
     }
-
-
 
 }
